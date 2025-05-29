@@ -4,6 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Service Form</title>
+  <style>
+    form {
+      display: flex;
+      flex-direction: column;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    input, button {
+      margin: 8px 0;
+      padding: 8px;
+      font-size: 1em;
+    }
+  </style>
 </head>
 <body>
   <form id="myForm">
@@ -11,6 +24,7 @@
     <input type="email" name="B" placeholder="Enter your email" required>
     <input type="text" name="C" placeholder="Enter your address" required>
     <input type="time" name="D" placeholder="Select a time" required>
+    <input type="date" name="E" required>
     <button type="submit">Submit</button>
   </form>
 
@@ -22,13 +36,14 @@
       const valB = this.elements["B"].value;
       const valC = this.elements["C"].value;
       const valD = this.elements["D"].value;
+      const valE = this.elements["E"].value;
 
-      // Send A, B, C, D as GET parameters
-      fetch(`https://script.google.com/macros/s/AKfycbz5Q-aCxD6qiQZd-teo-llUHKF917ntj4Y9lFXuAPEZvLpSW-xDqFalYXOFQkIGmjAuMw/exec?A=${encodeURIComponent(valA)}&B=${encodeURIComponent(valB)}&C=${encodeURIComponent(valC)}&D=${encodeURIComponent(valD)}`)
+      fetch(`https://script.google.com/macros/s/AKfycbxWbwLZOcH37Oo_FRdITZRG4-sSogcnvWkglPUrtc2aU0QuJbuk-9l3Pfy2FHcbT9OuyQ/exec?A=${encodeURIComponent(valA)}&B=${encodeURIComponent(valB)}&C=${encodeURIComponent(valC)}&D=${encodeURIComponent(valD)}&E=${encodeURIComponent(valE)}`)
         .then(response => response.text())
         .then(text => {
           if (text === "Success") {
-            alert("Submitted successfully!");
+            // Redirect after success
+            window.location.href = "/thankyou.html"; // Replace with your real URL later
           } else {
             alert("Submission failed: " + text);
           }
@@ -41,3 +56,4 @@
   </script>
 </body>
 </html>
+
