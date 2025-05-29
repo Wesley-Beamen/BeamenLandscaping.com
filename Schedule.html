@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<form id="myForm">
+  <input type="text" name="A" placeholder="Enter something" required>
+  <input type="text" name="B" placeholder="Enter your name" required>
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+document.getElementById("myForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const valA = this.elements["A"].value;
+  const valB = this.elements["B"].value;
+
+  // Send both A and B as GET parameters
+  fetch(`https://script.google.com/macros/s/AKfycbyy7gF5XrNXJ_iKEFCR581F4V-u9F_WU03jjIQpBxkdsDweMhndQSXxGZaLe10ldtRCHw/exec?A=${encodeURIComponent(valA)}&B=${encodeURIComponent(valB)}`)
+    .then(response => response.text())
+    .then(text => {
+      if (text === "Success") {
+        alert("Submitted successfully!");
+      } else {
+        alert("Submission failed: " + text);
+      }
+    })
+    .catch(err => {
+      alert("Network error: " + err);
+      console.error("Fetch error:", err);
+    });
+});
+</script>
+
+
+</body>
+</html>
