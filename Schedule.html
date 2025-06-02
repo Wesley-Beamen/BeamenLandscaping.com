@@ -114,7 +114,7 @@
     // If same-day, ensure at least 5 hours ahead
     const fiveHoursLater = new Date(now.getTime() + 2 * 60 * 60 * 1000);
     if (selectedDate.getTime() === today.getTime() && selectedDateTime < fiveHoursLater) {
-      submitButton.textContent = "Time must be 5 hrs ahead";
+      submitButton.textContent = "Time must be 2 hrs ahead";
       submitButton.disabled = false;
       return;
     }
