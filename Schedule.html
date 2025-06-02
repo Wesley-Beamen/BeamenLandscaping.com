@@ -69,12 +69,14 @@
     <button type="submit">Submit</button>
   </form>
 
-  <script>
-  // Set minimum date to today
-  const today = new Date().toISOString().split("T")[0];
-  document.getElementById("dateInput").setAttribute("min", today);
+<script>
+  // Set min date to today on page load
+  window.addEventListener("DOMContentLoaded", function () {
+    const today = new Date().toISOString().split("T")[0];
+    document.getElementById("dateInput").setAttribute("min", today);
+  });
 
-  document.getElementById("myForm").addEventListener("submit", function(e) {
+  document.getElementById("myForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
     const submitButton = this.querySelector("button[type='submit']");
@@ -87,17 +89,21 @@
     const valD = this.elements["D"].value;
     const valE = this.elements["E"].value;
 
-    const selectedDate = new Date(valE);
-    const currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0); // Midnight to ignore time part
+    // Safely parse the selected date
+    const [year, month, day] = valE.split("-").map(Number);
+    const selectedDate = new Date(year, month - 1, day);
 
-    if (selectedDate < currentDate) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Midnight to ignore time
+
+    if (selectedDate < today) {
       alert("You cannot schedule an appointment in the past.");
       submitButton.disabled = false;
       submitButton.textContent = "Submit";
       return;
     }
 
+    // Proceed if date is valid
     fetch(`https://script.google.com/macros/s/AKfycbxWbwLZOcH37Oo_FRdITZRG4-sSogcnvWkglPUrtc2aU0QuJbuk-9l3Pfy2FHcbT9OuyQ/exec?A=${encodeURIComponent(valA)}&B=${encodeURIComponent(valB)}&C=${encodeURIComponent(valC)}&D=${encodeURIComponent(valD)}&E=${encodeURIComponent(valE)}`)
       .then(response => response.text())
       .then(text => {
@@ -117,6 +123,7 @@
       });
   });
 </script>
+
 </body>
 </html>
 
