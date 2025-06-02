@@ -83,24 +83,37 @@
     const valA = this.elements["A"].value;
     const valB = this.elements["B"].value;
     const valC = this.elements["C"].value;
-    const valD = this.elements["D"].value;
-    const valE = this.elements["E"].value;
+    const valD = this.elements["D"].value; // time
+    const valE = this.elements["E"].value; // date
 
-    // Parse selected date manually to avoid browser issues
+    // Parse selected date and time
     const [year, month, day] = valE.split("-").map(Number);
-    const selectedDate = new Date(year, month - 1, day);
-    selectedDate.setHours(0, 0, 0, 0);
+    const [hours, minutes] = valD.split(":").map(Number);
+    const selectedDateTime = new Date(year, month - 1, day, hours, minutes);
 
+    const now = new Date();
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
+    // Block if date is in the past
+    const selectedDate = new Date(year, month - 1, day);
+    selectedDate.setHours(0, 0, 0, 0);
+
     if (selectedDate < today) {
       submitButton.textContent = "Date can't be in past";
-      submitButton.disabled = false; // Re-enable in case it was disabled before
+      submitButton.disabled = false;
       return;
     }
 
-    // Proceed with submission
+    // If same-day, check time is 5 hours ahead
+    const fiveHoursLater = new Date(now.getTime() + 5 * 60 * 60 * 1000);
+    if (selectedDate.getTime() === today.getTime() && selectedDateTime < fiveHoursLater) {
+      submitButton.textContent = "Time must be 5 hrs ahead";
+      submitButton.disabled = false;
+      return;
+    }
+
+    // Valid — proceed
     submitButton.disabled = true;
     submitButton.textContent = "Appointment Scheduled";
 
