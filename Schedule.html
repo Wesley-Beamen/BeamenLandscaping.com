@@ -70,38 +70,53 @@
   </form>
 
   <script>
-   document.getElementById("myForm").addEventListener("submit", function(e) {
-  e.preventDefault();
+  // Set minimum date to today
+  const today = new Date().toISOString().split("T")[0];
+  document.getElementById("dateInput").setAttribute("min", today);
 
-  const submitButton = this.querySelector("button[type='submit']");
-  submitButton.disabled = true;
-  submitButton.textContent = "Appointment Scheduled";
+  document.getElementById("myForm").addEventListener("submit", function(e) {
+    e.preventDefault();
 
-  const valA = this.elements["A"].value;
-  const valB = this.elements["B"].value;
-  const valC = this.elements["C"].value;
-  const valD = this.elements["D"].value;
-  const valE = this.elements["E"].value;
+    const submitButton = this.querySelector("button[type='submit']");
+    submitButton.disabled = true;
+    submitButton.textContent = "Appointment Scheduled";
 
-  fetch(`https://script.google.com/macros/s/AKfycbxWbwLZOcH37Oo_FRdITZRG4-sSogcnvWkglPUrtc2aU0QuJbuk-9l3Pfy2FHcbT9OuyQ/exec?A=${encodeURIComponent(valA)}&B=${encodeURIComponent(valB)}&C=${encodeURIComponent(valC)}&D=${encodeURIComponent(valD)}&E=${encodeURIComponent(valE)}`)
-    .then(response => response.text())
-    .then(text => {
-      if (text === "Success") {
-        window.location.href = "https://wesley-beamen.github.io/WeaselLandscaping.com/WeaselLandscapingHomePage.html";
-      } else {
-        alert("Submission failed: " + text);
-        submitButton.disabled = false;
-        submitButton.textContent = "Submit";
-      }
-    })
-    .catch(err => {
-      alert("Network error: " + err);
-      console.error("Fetch error:", err);
+    const valA = this.elements["A"].value;
+    const valB = this.elements["B"].value;
+    const valC = this.elements["C"].value;
+    const valD = this.elements["D"].value;
+    const valE = this.elements["E"].value;
+
+    const selectedDate = new Date(valE);
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Midnight to ignore time part
+
+    if (selectedDate < currentDate) {
+      alert("You cannot schedule an appointment in the past.");
       submitButton.disabled = false;
       submitButton.textContent = "Submit";
-    });
-});
-  </script>
+      return;
+    }
+
+    fetch(`https://script.google.com/macros/s/AKfycbxWbwLZOcH37Oo_FRdITZRG4-sSogcnvWkglPUrtc2aU0QuJbuk-9l3Pfy2FHcbT9OuyQ/exec?A=${encodeURIComponent(valA)}&B=${encodeURIComponent(valB)}&C=${encodeURIComponent(valC)}&D=${encodeURIComponent(valD)}&E=${encodeURIComponent(valE)}`)
+      .then(response => response.text())
+      .then(text => {
+        if (text === "Success") {
+          window.location.href = "https://wesley-beamen.github.io/WeaselLandscaping.com/WeaselLandscapingHomePage.html";
+        } else {
+          alert("Submission failed: " + text);
+          submitButton.disabled = false;
+          submitButton.textContent = "Submit";
+        }
+      })
+      .catch(err => {
+        alert("Network error: " + err);
+        console.error("Fetch error:", err);
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit";
+      });
+  });
+</script>
 </body>
 </html>
 
