@@ -64,7 +64,7 @@
     First and Last Name<input type="text" name="A" placeholder="Enter Name" required>
     Full Email<input type="email" name="B" placeholder="Enter your email" required>
     Adress <input type="text" name="C" placeholder="Enter your address" required>
-    Time for Service<input type="time" name="D" placeholder="Select a time" required>
+    Time for Service<input type="time" name="D" id="timeInput" min="08:00" max="18:00" required>
     Date of Service<input type="date" name="E" id="dateInput" required>
     <button type="submit">Submit</button>
   </form>
@@ -86,7 +86,6 @@
     const valD = this.elements["D"].value; // time
     const valE = this.elements["E"].value; // date
 
-    // Parse selected date and time
     const [year, month, day] = valE.split("-").map(Number);
     const [hours, minutes] = valD.split(":").map(Number);
     const selectedDateTime = new Date(year, month - 1, day, hours, minutes);
@@ -95,17 +94,24 @@
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // Block if date is in the past
     const selectedDate = new Date(year, month - 1, day);
     selectedDate.setHours(0, 0, 0, 0);
 
+    // Reject past date
     if (selectedDate < today) {
       submitButton.textContent = "Date can't be in past";
       submitButton.disabled = false;
       return;
     }
 
-    // If same-day, check time is 5 hours ahead
+    // Reject time outside 8 AM to 6 PM
+    if (hours < 8 || hours > 18 || (hours === 18 && minutes > 0)) {
+      submitButton.textContent = "Time must be 8am–6pm";
+      submitButton.disabled = false;
+      return;
+    }
+
+    // If same-day, ensure at least 5 hours ahead
     const fiveHoursLater = new Date(now.getTime() + 5 * 60 * 60 * 1000);
     if (selectedDate.getTime() === today.getTime() && selectedDateTime < fiveHoursLater) {
       submitButton.textContent = "Time must be 5 hrs ahead";
@@ -113,7 +119,7 @@
       return;
     }
 
-    // Valid — proceed
+    // Valid input — send
     submitButton.disabled = true;
     submitButton.textContent = "Appointment Scheduled";
 
