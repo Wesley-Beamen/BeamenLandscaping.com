@@ -123,7 +123,7 @@
     submitButton.disabled = true;
     submitButton.textContent = "Appointment Scheduled";
 
-    fetch(`https://script.google.com/macros/s/AKfycbxWbwLZOcH37Oo_FRdITZRG4-sSogcnvWkglPUrtc2aU0QuJbuk-9l3Pfy2FHcbT9OuyQ/exec?A=${encodeURIComponent(valA)}&B=${encodeURIComponent(valB)}&C=${encodeURIComponent(valC)}&D=${encodeURIComponent(valD)}&E=${encodeURIComponent(valE)}`)
+    fetch(`https://script.google.com/macros/s/AKfycbxHCB_d4dyPIW5UoYrk9B7Clid0Jb3WO-oDU19LtSLdCA2JkwFlyfwccu-Yn2li34kH_Q/exec`)
       .then(response => response.text())
       .then(text => {
         if (text === "Success") {
