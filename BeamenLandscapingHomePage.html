@@ -1,101 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beamen Landscaping.com</title>
-    <link rel="icon" href="LOGOBEAMEN.png">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Schedule – Beamen Landscaping</title>
 
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            background-image: url(pexels-photo-1001676.jpeg);
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url(pexels-photo-1001676.jpeg) no-repeat center center/cover;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        header {
-            background-color: #2e8b57;
-            color: white;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+    .form-card {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 420px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      text-align: center;
+      overflow: hidden;
+    }
 
-        .logo img {
-            width: 100px;
-            height: 100px;
-            background-color: #ccc; /* Placeholder background */
-        }
+    .step {
+      display: none;
+      animation: slideIn 0.5s ease forwards;
+    }
 
-        nav a {
-            color: white;
-            margin-left: 20px;
-            text-decoration: none;
-            font-weight: bold;
-        }
+    .step.active {
+      display: block;
+    }
 
-        .hero {
-            background: url('https://via.placeholder.com/1200x400') no-repeat center center/cover;
-            height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-align: center;
-        }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
 
-        .hero h1 {
-            font-size: 3em;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 20px;
-        }
+    h2 {
+      margin-bottom: 15px;
+    }
 
-        .content {
-            padding: 40px 20px;
-            text-align: center;
-            background-color: white;
-            width: 80%;
-            margin: auto;
-        }
+    .services {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 20px 0;
+    }
 
-        .content h2 {
-            margin-bottom: 20px;
-        }
+    .service {
+      padding: 14px;
+      border-radius: 12px;
+      background: #eee;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      font-weight: bold;
+    }
 
-        .content p {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-    </style>
+    .service.active {
+      background: #c5f0d2;
+      border: 2px solid #2e8b57;
+    }
+
+    /* 🌿 Mowing = bubbles */
+    .service.mowing::after {
+      content: "🫧";
+      position: absolute;
+      right: 8px;
+      bottom: 5px;
+      animation: float 2s infinite ease-in-out;
+    }
+
+    /* ✂️ Trimming = leaves */
+    .service.trimming::after {
+      content: "🍃";
+      position: absolute;
+      right: 8px;
+      bottom: 5px;
+      animation: float 1.8s infinite ease-in-out;
+    }
+
+    /* 🌱 Edging */
+    .service.edging::after {
+      content: "🌱";
+      position: absolute;
+      right: 8px;
+      bottom: 5px;
+      animation: float 2.3s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+      100% { transform: translateY(0); }
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: #2e8b57;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #246b43;
+    }
+
+    .range-value {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">
-            <img src="LOGOBEAMEN.png" alt="Logo Placeholder">
-        </div>
-        <nav>
-            <a href="Schedule.html">|Schedule an Appointment|</a>
-            <a href="Services.html">|Services|</a>
-            <a href="Contact.html">|Contact us|</a>
-        </nav>
-    </header>
+<div class="form-card">
 
-    <section class="hero">
-        <h1>Welcome to Beamen Landscaping</h1>
-    </section>
+  <!-- STEP 1 -->
+  <div class="step active">
+    <h2>👋 What’s your name?</h2>
+    <input type="text" id="name" placeholder="Your name" />
+    <button onclick="nextStep()">Next →</button>
+  </div>
 
-    <section class="content">
-        <h2>About Our Services</h2>
-        <p>We offer many services including mowing, edging, weed wacking, bush trimming, etc. All services are a great value and guaranted high quiality from local workers.</p>
-    </section>
+  <!-- STEP 2 -->
+  <div class="step">
+    <h2>📍 Where is your property?</h2>
+    <input type="text" id="address" placeholder="Address" />
+    <button onclick="nextStep()">Next →</button>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step">
+    <h2>🛠 What services do you want?</h2>
+
+    <div class="services">
+      <div class="service mowing" onclick="toggleService(this)">Mowing</div>
+      <div class="service trimming" onclick="toggleService(this)">Trimming</div>
+      <div class="service edging" onclick="toggleService(this)">Edging</div>
+      <div class="service weeding" onclick="toggleService(this)">Weeding</div>
+    </div>
+
+    <button onclick="nextStep()">Next →</button>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step">
+    <h2>📏 How big is your yard?</h2>
+    <input type="range" min="1" max="10" value="5" id="yardSize" oninput="updateRange()" />
+    <div class="range-value" id="rangeValue">Medium</div>
+    <button onclick="nextStep()">Next →</button>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step">
+    <h2>🎉 You’re all set!</h2>
+    <p>We’ll contact you soon to confirm your appointment.</p>
+    <button onclick="alert('Form submitted!')">Submit</button>
+  </div>
+
+</div>
+
+<script>
+  let currentStep = 0;
+  const steps = document.querySelectorAll(".step");
+
+  function nextStep() {
+    steps[currentStep].classList.remove("active");
+    currentStep++;
+    steps[currentStep].classList.add("active");
+  }
+
+  function toggleService(el) {
+    el.classList.toggle("active");
+  }
+
+  function updateRange() {
+    const val = document.getElementById("yardSize").value;
+    const label = document.getElementById("rangeValue");
+
+    if (val <= 3) label.textContent = "Small Yard 🌱";
+    else if (val <= 7) label.textContent = "Medium Yard 🌿";
+    else label.textContent = "Large Yard 🌳";
+  }
+</script>
+
 </body>
 </html>
